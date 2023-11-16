@@ -1,10 +1,7 @@
-module github.com/zyxar/argo
+module github.com/atopx/argo
 
-go 1.15
+go 1.20
 
-require (
-	github.com/gorilla/websocket v1.4.2
-	github.com/mailru/easyjson v0.7.6
-	github.com/mattn/go-runewidth v0.0.9 // indirect
-	github.com/olekukonko/tablewriter v0.0.4
-)
+require github.com/gorilla/websocket v1.5.1
+
+require golang.org/x/net v0.18.0 // indirect

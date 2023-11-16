@@ -1,4 +1,4 @@
-package rpc
+package argo
 
 const (
 	aria2AddURI               = "aria2.addUri"

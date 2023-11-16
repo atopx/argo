@@ -1,6 +1,4 @@
-//go:generate easyjson -all
-
-package rpc
+package argo
 
 // StatusInfo represents response of aria2.tellStatus
 type StatusInfo struct {

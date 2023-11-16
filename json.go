@@ -1,4 +1,4 @@
-package rpc
+package argo
 
 // based on "github.com/gorilla/rpc/v2/json2"
 
@@ -12,6 +12,8 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"sync/atomic"
+	"time"
 )
 
 // ----------------------------------------------------------------------------
@@ -34,6 +36,22 @@ type clientRequest struct {
 	Id uint64 `json:"id"`
 }
 
+func newClientRequest(method string, params interface{}) *clientRequest {
+	return &clientRequest{
+		Version: "2.0",
+		Method:  method,
+		Params:  params,
+		Id:      reqid(),
+	}
+}
+
+var reqid = func() func() uint64 {
+	var id = uint64(time.Now().UnixNano())
+	return func() uint64 {
+		return atomic.AddUint64(&id, 1)
+	}
+}()
+
 // clientResponse represents a JSON-RPC response returned to a client.
 type clientResponse struct {
 	Version string           `json:"jsonrpc"`
@@ -43,15 +61,9 @@ type clientResponse struct {
 }
 
 // EncodeClientRequest encodes parameters for a JSON-RPC client request.
-func EncodeClientRequest(method string, args interface{}) (*bytes.Buffer, error) {
+func EncodeClientRequest(method string, params interface{}) (*bytes.Buffer, error) {
 	var buf bytes.Buffer
-	c := &clientRequest{
-		Version: "2.0",
-		Method:  method,
-		Params:  args,
-		Id:      reqid(),
-	}
-	if err := json.NewEncoder(&buf).Encode(c); err != nil {
+	if err := json.NewEncoder(&buf).Encode(newClientRequest(method, params)); err != nil {
 		return nil, err
 	}
 	return &buf, nil

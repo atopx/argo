@@ -1,4 +1,4 @@
-package rpc
+package argo
 
 // Protocol is a set of rpc methods that aria2 daemon supports
 type Protocol interface {

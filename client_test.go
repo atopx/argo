@@ -1,14 +1,15 @@
-package rpc
+package argo
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 )
 
 func TestHTTPAll(t *testing.T) {
 	const targetURL = "https://nodejs.org/dist/index.json"
-	rpc, err := New(context.Background(), "http://localhost:6800/jsonrpc", "", time.Second, &DummyNotifier{})
+	rpc, err := New(context.Background(), "http://localhost:6800/jsonrpc", "123456", time.Second, &DefaultNotifier{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -17,7 +18,7 @@ func TestHTTPAll(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	println(g)
+	fmt.Println(g)
 	if _, err = rpc.TellActive(); err != nil {
 		t.Error(err)
 	}
@@ -67,7 +68,7 @@ func TestHTTPAll(t *testing.T) {
 
 func TestWebsocketAll(t *testing.T) {
 	const targetURL = "https://nodejs.org/dist/index.json"
-	rpc, err := New(context.Background(), "ws://localhost:6800/jsonrpc", "", time.Second, &DummyNotifier{})
+	rpc, err := New(context.Background(), "ws://localhost:6800/jsonrpc", "123456", time.Second, &DefaultNotifier{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -76,7 +77,7 @@ func TestWebsocketAll(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	println(g)
+	fmt.Println(g)
 	if _, err = rpc.TellActive(); err != nil {
 		t.Error(err)
 	}

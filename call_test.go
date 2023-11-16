@@ -1,14 +1,15 @@
-package rpc
+package argo
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 )
 
 func TestWebsocketCaller(t *testing.T) {
 	time.Sleep(time.Second)
-	c, err := newWebsocketCaller(context.Background(), "ws://localhost:6800/jsonrpc", time.Second, &DummyNotifier{})
+	c, err := newWebsocketCaller(context.Background(), "ws://localhost:6800/jsonrpc", time.Second, &DefaultNotifier{})
 	if err != nil {
 		t.Fatal(err.Error())
 	}
@@ -18,6 +19,6 @@ func TestWebsocketCaller(t *testing.T) {
 	if err := c.Call(aria2GetVersion, []interface{}{}, &info); err != nil {
 		t.Error(err.Error())
 	} else {
-		println(info.Version)
+		fmt.Println(info.Version)
 	}
 }

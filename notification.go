@@ -1,7 +1,16 @@
-package rpc
+package argo
 
 import (
 	"log"
+)
+
+const (
+	onDownloadStart      = "aria2.onDownloadStart"
+	onDownloadPause      = "aria2.onDownloadPause"
+	onDownloadStop       = "aria2.onDownloadStop"
+	onDownloadComplete   = "aria2.onDownloadComplete"
+	onDownloadError      = "aria2.onDownloadError"
+	onBtDownloadComplete = "aria2.onBtDownloadComplete"
 )
 
 type Event struct {
@@ -34,11 +43,11 @@ type Notifier interface {
 	OnBtDownloadComplete([]Event)
 }
 
-type DummyNotifier struct{}
+type DefaultNotifier struct{}
 
-func (DummyNotifier) OnDownloadStart(events []Event)      { log.Printf("%s started.", events) }
-func (DummyNotifier) OnDownloadPause(events []Event)      { log.Printf("%s paused.", events) }
-func (DummyNotifier) OnDownloadStop(events []Event)       { log.Printf("%s stopped.", events) }
-func (DummyNotifier) OnDownloadComplete(events []Event)   { log.Printf("%s completed.", events) }
-func (DummyNotifier) OnDownloadError(events []Event)      { log.Printf("%s error.", events) }
-func (DummyNotifier) OnBtDownloadComplete(events []Event) { log.Printf("bt %s completed.", events) }
+func (DefaultNotifier) OnDownloadStart(events []Event)      { log.Printf("%s started.", events) }
+func (DefaultNotifier) OnDownloadPause(events []Event)      { log.Printf("%s paused.", events) }
+func (DefaultNotifier) OnDownloadStop(events []Event)       { log.Printf("%s stopped.", events) }
+func (DefaultNotifier) OnDownloadComplete(events []Event)   { log.Printf("%s completed.", events) }
+func (DefaultNotifier) OnDownloadError(events []Event)      { log.Printf("%s error.", events) }
+func (DefaultNotifier) OnBtDownloadComplete(events []Event) { log.Printf("bt %s completed.", events) }
